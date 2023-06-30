@@ -3,20 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace PersonalFinance.ViewModels
 {
-    public class BudgetSheetViewModel : INotifyPropertyChanged
+    public class BudgetSheet : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private string testName;
-        public string TestName
-        {
-            get => testName;
-            set
-            {
-                testName = value;
-                OnPropertyChanged();
-            }
-        }
 
         private List<TimePeriodColumn> timePeriodColumns = new();
         public List<TimePeriodColumn> TimePeriodColumns

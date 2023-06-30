@@ -7,13 +7,13 @@ namespace PersonalFinance.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private BudgetSheetViewModel budgetSheet = new();
-        public BudgetSheetViewModel BudgetSheet
+        private BudgetSheet budgetSheet = new();
+        public BudgetSheet BudgetSheet
         {
             get => budgetSheet;
             set
             {
-                budgetSheet= value;
+                budgetSheet = value;
                 OnPropertyChanged();
             }
         }
@@ -33,8 +33,24 @@ namespace PersonalFinance.ViewModels
             var columns = new List<TimePeriodColumn>();
             while (runningDate < end)
             {
-                columns.Add(new TimePeriodColumn { StartDate = runningDate });
-                runningDate= runningDate.AddDays(7);
+                var column = new TimePeriodColumn { StartDate = runningDate };
+                column.Accounts.Add(new TimePeriodAccount
+                {
+                    AccountBalance = 1500,
+                    InBudgetCells = new List<BudgetCell>
+                    {
+                        new BudgetCell { TransactionsTotal = 50 },
+                        new BudgetCell { TransactionsTotal = 60 }
+                    },
+                    OutBudgetCells = new List<BudgetCell>
+                    {
+                        new BudgetCell { TransactionsTotal = 10 },
+                        new BudgetCell { TransactionsTotal = 20 }
+                    }
+                });
+
+                columns.Add(column);
+                runningDate = runningDate.AddDays(7);
             }
             budgetSheet.TimePeriodColumns = columns;
         }

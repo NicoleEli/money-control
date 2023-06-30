@@ -10,37 +10,57 @@
             Padding="30,0"
             VerticalOptions="Center">
 
-            <Label Text="Test"/>
-            <Label Text="{Binding BudgetSheet.TestName}"/>
-
-            <CollectionView ItemsSource="{Binding BudgetSheet.TimePeriodColumns}">
+            <CollectionView ItemsSource="{Binding BudgetSheet.TimePeriodColumns}"
+                            ItemsLayout="HorizontalList"
+                            HeightRequest="600">
+                <!--TODO: there's probably a way to get visual space without being overly precise about exact heights-->
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Text="{Binding StartDate, StringFormat='{0:d MMM yy}'}"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Text="{Binding StartDate, StringFormat='{0:d MMM yy}'}"/>
+
+                            <!--TODO: look into whether we can extract components for some of this to simplify the parent page-->
+                            <CollectionView Grid.Row="1" ItemsSource="{Binding Accounts}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!--TODO: this is scrolling - how do we make it not? Perhaps collectionview isn't the right thing?-->
+                                            <CollectionView Grid.Row="0" ItemsSource="{Binding InBudgetCells}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label Text="{Binding TransactionsTotal}"/>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+
+                                            <CollectionView Grid.Row="1" ItemsSource="{Binding OutBudgetCells}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label Text="{Binding TransactionsTotal}"/>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+
+                                            <Label Grid.Row="2" Text="{Binding AccountBalance}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-
-
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
 
             <Button
                 x:Name="CounterBtn"

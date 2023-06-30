@@ -15,15 +15,11 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         ViewModel = viewModel;
+        ViewModel.SetTimePeriod(new DateTime(2023, 01, 02), new DateTime(2023, 12, 31));
     }
 
     private void OnCounterClicked(object sender, EventArgs e)
     {
-
-        ViewModel.BudgetSheet.TestName = $"hello I'm a view model {count}";
-
-        ViewModel.SetTimePeriod(new DateTime(2023, 01, 01), new DateTime(2023, 12, 31));
-
         count++;
 
         if (count == 1)
