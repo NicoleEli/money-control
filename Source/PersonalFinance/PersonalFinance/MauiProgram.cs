@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using PersonalFinance.ViewModels;
 
 namespace PersonalFinance;
 
@@ -15,8 +16,13 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		builder.Services.AddTransient<MainPage>();
+
+		builder.Services.AddTransient<MainPageViewModel>();
+		builder.Services.AddTransient<BudgetSheetViewModel>();
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();
